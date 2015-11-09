@@ -1,0 +1,302 @@
+# spreadrrd.cf - Config File for spreadrrd.py
+#
+# Fields per entry (entries separated by a blank line):
+#  spreadrrd=<string>           # elvin key to match against
+#  rrdfile=<filename>           # rrd file to update
+#  store=<string>               # elvin key to store
+#  create=<string>              # rrd create args if rrd file does not exist
+############################################################################
+
+# This sample config file writes RRD files to /var/spreadrrd/data/rrd/ in a
+#  subdirectory per data type.
+# The subdirectories and RRD files will be automatically created if
+#  they do not exist.
+############################################################################
+
+# Load Averages
+spreadrrd=loadavg1-*
+rrdfile=/var/spreadrrd/data/rrd/loadavg/loadavg1-*.rrd
+store=loadavg1
+create=-s 60 DS:loadavg1:GAUGE:120:0:300 RRA:AVERAGE:0.5:1:1440 RRA:AVERAGE:0.5:10:1008 RRA:AVERAGE:0.5:60:720 RRA:AVERAGE:0.5:480:1095
+
+spreadrrd=loadavg5-*
+rrdfile=/var/spreadrrd/data/rrd/loadavg/loadavg5-*.rrd
+store=loadavg5
+create=-s 300 DS:loadavg5:GAUGE:600:0:300 RRA:AVERAGE:0.5:1:600 RRA:AVERAGE:0.5:6:600 RRA:AVERAGE:0.5:24:600 RRA:AVERAGE:0.5:288:600 RRA:MAX:0.5:24:600 RRA:MAX:0.5:288:600
+
+spreadrrd=loadavg15-*
+rrdfile=/var/spreadrrd/data/rrd/loadavg/loadavg15-*.rrd
+store=loadavg15
+create=-s 900 DS:loadavg15:GAUGE:1800:0:300 RRA:AVERAGE:0.5:1:96 RRA:AVERAGE:0.5:10:67 RRA:AVERAGE:0.5:60:49 RRA:AVERAGE:0.5:480:73
+
+# Scan Rates
+spreadrrd=sr-*
+rrdfile=/var/spreadrrd/data/rrd/scanrate/sr-*.rrd
+store=scanrate
+create=-s 60 DS:scan:COUNTER:120:U:U RRA:AVERAGE:0.5:1:1440 RRA:AVERAGE:0.5:10:1008 RRA:AVERAGE:0.5:60:720 RRA:AVERAGE:0.5:480:1095
+
+# CPU
+# Basic cpu use as a gauge
+spreadrrd=cpu-*
+rrdfile=/var/spreadrrd/data/rrd/cpu/cpu-*.rrd
+store=cpu
+create=-s 60 DS:cpu:GAUGE:120:0:1000 RRA:AVERAGE:0.5:1:1440 RRA:AVERAGE:0.5:10:1008 RRA:AVERAGE:0.5:60:720 RRA:AVERAGE:0.5:480:1095
+
+# Linux cpu counters for 4 stats: user, nice, system, idle
+spreadrrd=cpulinux-*
+rrdfile=/var/spreadrrd/data/rrd/cpulinux/cpulinux-*.rrd
+store=cpu_user,cpu_nice,cpu_system,cpu_idle
+create=-s 60 DS:cpu_user:COUNTER:120:0:1000 DS:cpu_nice:COUNTER:120:0:1000 DS:cpu_system:COUNTER:120:0:1000 DS:cpu_idle:COUNTER:120:0:1000 RRA:AVERAGE:0.5:1:1440 RRA:AVERAGE:0.5:10:1008 RRA:AVERAGE:0.5:60:720 RRA:AVERAGE:0.5:480:1095
+
+# Linux improved cpu counters for 7 stats: user, nice, system, idle, iowait, hardirq, softirq
+spreadrrd=cpulinux2-*
+rrdfile=/var/spreadrrd/data/rrd/cpulinux2/cpulinux2-*.rrd
+store=cpu_user,cpu_nice,cpu_system,cpu_idle,cpu_iowait,cpu_hardirq,cpu_softirq
+create=-s 60 DS:cpu_user:COUNTER:120:0:1000 DS:cpu_nice:COUNTER:120:0:1000 DS:cpu_system:COUNTER:120:0:1000 DS:cpu_idle:COUNTER:120:0:1000 DS:cpu_iowait:COUNTER:120:0:1000 DS:cpu_hardirq:COUNTER:120:0:1000 DS:cpu_softirq:COUNTER:120:0:1000 RRA:AVERAGE:0.5:1:1440 RRA:AVERAGE:0.5:10:1008 RRA:AVERAGE:0.5:60:720 RRA:AVERAGE:0.5:480:1095
+
+# Solaris cpu counters for 4 stats: user, system, wait, idle
+spreadrrd=cpusolaris-*
+rrdfile=/var/spreadrrd/data/rrd/cpusolaris/cpusolaris-*.rrd
+store=cpu_user,cpu_system,cpu_wait,cpu_idle
+create=-s 60 DS:cpu_user:COUNTER:120:0:1000 DS:cpu_system:COUNTER:120:0:1000 DS:cpu_wait:COUNTER:120:0:1000 DS:cpu_idle:COUNTER:120:0:1000 RRA:AVERAGE:0.5:1:1440 RRA:AVERAGE:0.5:10:1008 RRA:AVERAGE:0.5:60:720 RRA:AVERAGE:0.5:480:1095
+
+# BSD (ie: FreeBSD) cpu counters for 5 stats: user, nice, system, interrupt, idle
+spreadrrd=cpubsd-*
+rrdfile=/mrtg/rrd/cpubsd/cpubsd-*.rrd
+store=cpu_user,cpu_nice,cpu_system,cpu_interrupt,cpu_idle
+create=-s 60 DS:cpu_user:COUNTER:120:0:1000 DS:cpu_nice:COUNTER:120:0:1000 DS:cpu_system:COUNTER:120:0:1000 DS:cpu_interrupt:COUNTER:120:0:1000 DS:cpu_idle:COUNTER:120:0:1000 RRA:AVERAGE:0.5:1:1440 RRA:AVERAGE:0.5:10:1008 RRA:AVERAGE:0.5:60:720 RRA:AVERAGE:0.5:480:1095
+
+# Netapp cpu counters for 2 stats: busy, idle
+spreadrrd=cpunetapp-*
+rrdfile=/var/spreadrrd/data/rrd/cpunetapp/cpunetapp-*.rrd
+store=cpu_busy,cpu_idle
+create=-s 60 DS:cpu_busy:COUNTER:120:U:1000 DS:cpu_idle:COUNTER:120:U:1000 RRA:AVERAGE:0.5:1:1440 RRA:AVERAGE:0.5:10:1008 RRA:AVERAGE:0.5:60:720 RRA:AVERAGE:0.5:480:1095
+
+# Windows NT/2000 cpu counters for 4 CPU system
+spreadrrd=cpuwinnt-*
+rrdfile=/var/spreadrrd/data/rrd/cpuwinnt/cpuwinnt-*.rrd
+store=cpu1_busy,cpu2_busy,cpu3_busy,cpu4_busy
+create=-s 60 DS:cpu1_busy:GAUGE:120:U:120 DS:cpu2_busy:GAUGE:120:U:120 DS:cpu3_busy:GAUGE:120:U:120 DS:cpu4_busy:GAUGE:120:U:120 RRA:AVERAGE:0.5:1:1440 RRA:AVERAGE:0.5:10:1008 RRA:AVERAGE:0.5:60:720 RRA:AVERAGE:0.5:480:1095
+
+# Filesystems [5min]
+# Filesystem space used
+spreadrrd=fs-*
+rrdfile=/var/spreadrrd/data/rrd/fs/fs-*.rrd
+store=used,size
+create=-s 300 DS:used:GAUGE:600:0:U DS:size:GAUGE:600:0:U RRA:AVERAGE:0.5:1:600 RRA:AVERAGE:0.5:6:600 RRA:AVERAGE:0.5:24:600 RRA:AVERAGE:0.5:288:600 RRA:MAX:0.5:24:600 RRA:MAX:0.5:288:600
+
+# Filesystem inodes used
+spreadrrd=inodes-*
+rrdfile=/var/spreadrrd/data/rrd/inodes/inodes-*.rrd
+store=used,total
+create=-s 300 DS:used:GAUGE:600:0:U DS:total:GAUGE:600:0:U RRA:AVERAGE:0.5:1:600 RRA:AVERAGE:0.5:6:600 RRA:AVERAGE:0.5:24:600 RRA:AVERAGE:0.5:288:600 RRA:MAX:0.5:24:600 RRA:MAX:0.5:288:600
+
+# CPU Context Switches [5min]
+spreadrrd=cs-*
+rrdfile=/var/spreadrrd/data/rrd/cs/cs-*.rrd
+store=contextswitch
+create=-s 300 DS:contextswitch:COUNTER:600:0:1000000 RRA:AVERAGE:0.5:1:600 RRA:AVERAGE:0.5:6:600 RRA:AVERAGE:0.5:24:600 RRA:AVERAGE:0.5:288:600 RRA:MAX:0.5:24:600 RRA:MAX:0.5:288:600
+
+# Device Interrupts [5min]
+spreadrrd=ints-*
+rrdfile=/var/spreadrrd/data/rrd/ints/ints-*.rrd
+store=interrupts
+create=-s 300 DS:interrupts:COUNTER:600:0:U RRA:AVERAGE:0.5:1:600 RRA:AVERAGE:0.5:6:600 RRA:AVERAGE:0.5:24:600 RRA:AVERAGE:0.5:288:600 RRA:MAX:0.5:24:600 RRA:MAX:0.5:288:600
+
+# System Calls [5min]
+spreadrrd=syscalls-*
+rrdfile=/var/spreadrrd/data/rrd/syscalls/syscalls-*.rrd
+store=syscalls
+create=-s 300 DS:syscalls:COUNTER:600:0:U RRA:AVERAGE:0.5:1:600 RRA:AVERAGE:0.5:6:600 RRA:AVERAGE:0.5:24:600 RRA:AVERAGE:0.5:288:600 RRA:MAX:0.5:24:600 RRA:MAX:0.5:288:600
+
+# Network Interfaces [5min]
+# Packets/s, errors, collisions
+spreadrrd=if-*
+rrdfile=/var/spreadrrd/data/rrd/if/if-*.rrd
+store=ipkts,opkts,ierrs,oerrs,collis
+create=-s 300 DS:ipkts:COUNTER:600:0:1000000 DS:opkts:COUNTER:600:0:1000000 DS:ierrs:COUNTER:600:0:1000000 DS:oerrs:COUNTER:600:0:1000000 DS:collis:COUNTER:600:0:1000000 RRA:AVERAGE:0.5:1:600 RRA:AVERAGE:0.5:6:600 RRA:AVERAGE:0.5:24:600 RRA:AVERAGE:0.5:288:600 RRA:MAX:0.5:24:600 RRA:MAX:0.5:288:600
+
+# network throughput
+spreadrrd=net-*
+rrdfile=/var/spreadrrd/data/rrd/net/net-*.rrd
+store=ibytes,obytes
+create=-s 300 DS:ibytes:COUNTER:600:0:U DS:obytes:COUNTER:600:0:U RRA:AVERAGE:0.5:1:600 RRA:AVERAGE:0.5:6:600 RRA:AVERAGE:0.5:24:600 RRA:AVERAGE:0.5:288:600 RRA:MAX:0.5:24:600 RRA:MAX:0.5:288:600
+
+# Memory/Swap
+# Free Memory [5min]
+spreadrrd=memfree-*
+rrdfile=/var/spreadrrd/data/rrd/memfree/memfree-*.rrd
+store=memfree
+create=-s 300 DS:memfree:GAUGE:600:0:U RRA:AVERAGE:0.5:1:600 RRA:AVERAGE:0.5:6:600 RRA:AVERAGE:0.5:24:600 RRA:AVERAGE:0.5:288:600 RRA:MAX:0.5:24:600 RRA:MAX:0.5:288:600
+
+# Memory usage for Linux [5min]
+spreadrrd=memlinux-*
+rrdfile=/var/spreadrrd/data/rrd/memlinux/memlinux-*.rrd
+store=memtotal,memfree,memused,memshared,memcached,membuffers
+create=-s 300 DS:memtotal:GAUGE:600:0:U DS:memfree:GAUGE:600:0:U DS:memused:GAUGE:600:0:U DS:memshared:GAUGE:600:0:U DS:memcached:GAUGE:600:0:U DS:membuffers:GAUGE:600:0:U RRA:AVERAGE:0.5:1:600 RRA:AVERAGE:0.5:6:600 RRA:AVERAGE:0.5:24:600 RRA:AVERAGE:0.5:288:600 RRA:MAX:0.5:24:600 RRA:MAX:0.5:288:600
+
+# Swap usage for Linux [5min]
+spreadrrd=swaplinux-*
+rrdfile=/var/spreadrrd/data/rrd/swaplinux/swaplinux-*.rrd
+store=swaptotal,swapfree,swapused
+create=-s 300 DS:swaptotal:GAUGE:600:0:U DS:swapfree:GAUGE:600:0:U DS:swapused:GAUGE:600:0:U RRA:AVERAGE:0.5:1:600 RRA:AVERAGE:0.5:6:600 RRA:AVERAGE:0.5:24:600 RRA:AVERAGE:0.5:288:600 RRA:MAX:0.5:24:600 RRA:MAX:0.5:288:600
+
+# Paging in/out (Linux) [5min]
+spreadrrd=paging-*
+rrdfile=/var/spreadrrd/data/rrd/paging/paging-*.rrd
+store=pages_in,pages_out
+create=-s 300 DS:pages_in:COUNTER:600:0:1000000 DS:pages_out:COUNTER:600:0:1000000 RRA:AVERAGE:0.5:1:600 RRA:AVERAGE:0.5:6:600 RRA:AVERAGE:0.5:24:600 RRA:AVERAGE:0.5:288:600 RRA:MAX:0.5:24:600 RRA:MAX:0.5:288:600
+
+# Swapping in/out (Linux) [5min]
+spreadrrd=swapping-*
+rrdfile=/var/spreadrrd/data/rrd/swapping/swapping-*.rrd
+store=swap_in,swap_out
+create=-s 300 DS:swap_in:COUNTER:600:0:U DS:swap_out:COUNTER:600:0:U RRA:AVERAGE:0.5:1:600 RRA:AVERAGE:0.5:6:600 RRA:AVERAGE:0.5:24:600 RRA:AVERAGE:0.5:288:600 RRA:MAX:0.5:24:600 RRA:MAX:0.5:288:600
+
+
+# Ping avgtriptime [1min]
+spreadrrd=ping-*
+rrdfile=/var/spreadrrd/data/rrd/ping/ping-*.rrd
+store=avgtriptime
+create=-s 60 DS:avgtriptime:GAUGE:120:0:200 RRA:AVERAGE:0.5:1:1440 RRA:AVERAGE:0.5:10:1008 RRA:AVERAGE:0.5:60:720 RRA:AVERAGE:0.5:480:1095
+
+# HTTP timing [5min]
+#spreadrrd=http-*
+#rrdfile=/var/spreadrrd/data/rrd/http/http-*.rrd
+#store=time
+#create=-s 300 DS:time:GAUGE:600:0:300 RRA:AVERAGE:0.5:1:600 RRA:AVERAGE:0.5:6:600 RRA:AVERAGE:0.5:24:600 RRA:AVERAGE:0.5:288:600 RRA:MAX:0.5:24:600 RRA:MAX:0.5:288:600
+
+# HTTP timing [1min]
+spreadrrd=http-*
+rrdfile=/var/spreadrrd/data/rrd/http/http-*.rrd
+store=time
+create=-s 60 DS:time:GAUGE:120:0:200 RRA:AVERAGE:0.5:1:1440 RRA:AVERAGE:0.5:10:1008 RRA:AVERAGE:0.5:60:720 RRA:AVERAGE:0.5:480:1095 RRA:MAX:0.5:24:600 RRA:MAX:0.5:288:600
+
+# HTTP better timing [1min]
+spreadrrd=httptime-*
+rrdfile=/var/spreadrrd/data/rrd/httptime/httptime-*.rrd
+store=time_resolve,time_connect,time_request,time_response,time
+create=-s 60 DS:time:GAUGE:120:0:300 DS:time_resolve:GAUGE:120:0:300 DS:time_connect:GAUGE:120:0:300 DS:time_request:GAUGE:120:0:300 DS:time_response:GAUGE:120:0:300 RRA:AVERAGE:0.5:1:1440 RRA:AVERAGE:0.5:10:1008 RRA:AVERAGE:0.5:60:720 RRA:AVERAGE:0.5:480:1095 RRA:MAX:0.5:24:600 RRA:MAX:0.5:288:600
+
+# Disk I/O
+# disk throughput (bytes)
+spreadrrd=disk-*
+rrdfile=/var/spreadrrd/data/rrd/disk/disk-*.rrd
+store=rbytes,wbytes
+create=-s 300 DS:rbytes:COUNTER:600:0:U DS:wbytes:COUNTER:600:0:U RRA:AVERAGE:0.5:1:600 RRA:AVERAGE:0.5:6:600 RRA:AVERAGE:0.5:24:600 RRA:AVERAGE:0.5:288:600 RRA:MAX:0.5:24:600 RRA:MAX:0.5:288:600
+
+# Tape I/O (Counter)
+# tape throughput (bytes)
+spreadrrd=tape-*
+rrdfile=/var/spreadrrd/data/rrd/tape/tape-*.rrd
+store=ibytes,obytes
+create=-s 300 DS:ibytes:COUNTER:600:0:U DS:obytes:COUNTER:600:0:U RRA:AVERAGE:0.5:1:600 RRA:AVERAGE:0.5:6:600 RRA:AVERAGE:0.5:24:600 RRA:AVERAGE:0.5:288:600 RRA:MAX:0.5:24:600 RRA:MAX:0.5:288:600
+
+# NFS Operations
+# NFS ops/sec
+spreadrrd=nfsops-*
+rrdfile=/var/spreadrrd/data/rrd/nfsops/nfsops-*.rrd
+store=nfsops
+create=-s 300 DS:nfsops:COUNTER:600:0:100000 RRA:AVERAGE:0.5:1:600 RRA:AVERAGE:0.5:6:600 RRA:AVERAGE:0.5:24:600 RRA:AVERAGE:0.5:288:600 RRA:MAX:0.5:24:600 RRA:MAX:0.5:288:600
+
+# CIFS ops/sec
+spreadrrd=cifsops-*
+rrdfile=/var/spreadrrd/data/rrd/cifsops/cifsops-*.rrd
+store=cifsops
+create=-s 300 DS:cifsops:COUNTER:600:0:100000 RRA:AVERAGE:0.5:1:600 RRA:AVERAGE:0.5:6:600 RRA:AVERAGE:0.5:24:600 RRA:AVERAGE:0.5:288:600 RRA:MAX:0.5:24:600 RRA:MAX:0.5:288:600
+
+# HTTP ops/sec
+spreadrrd=httpops-*
+rrdfile=/var/spreadrrd/data/rrd/httpops/httpops-*.rrd
+store=httpops
+create=-s 300 DS:httpops:COUNTER:600:0:100000 RRA:AVERAGE:0.5:1:600 RRA:AVERAGE:0.5:6:600 RRA:AVERAGE:0.5:24:600 RRA:AVERAGE:0.5:288:600 RRA:MAX:0.5:24:600 RRA:MAX:0.5:288:600
+
+# NT Stats
+spreadrrd=ntprocs-*
+rrdfile=/var/spreadrrd/data/rrd/ntprocs/ntprocs-*.rrd
+store=num_procs
+create=-s 300 DS:num_procs:GAUGE:600:0:1000 RRA:AVERAGE:0.5:1:600 RRA:AVERAGE:0.5:6:600 RRA:AVERAGE:0.5:24:600 RRA:AVERAGE:0.5:288:600 RRA:MAX:0.5:24:600 RRA:MAX:0.5:288:600
+
+spreadrrd=ntusers-*
+rrdfile=/var/spreadrrd/data/rrd/ntusers/ntusers-*.rrd
+store=num_users
+create=-s 300 DS:num_users:GAUGE:600:0:1000 RRA:AVERAGE:0.5:1:600 RRA:AVERAGE:0.5:6:600 RRA:AVERAGE:0.5:24:600 RRA:AVERAGE:0.5:288:600 RRA:MAX:0.5:24:600 RRA:MAX:0.5:288:600
+
+### Netapp Specific
+spreadrrd=netappcacheage-*
+rrdfile=/var/spreadrrd/data/rrd/netappcacheage/netappcacheage-*.rrd
+store=cacheage
+create=-s 300 DS:cacheage:GAUGE:600:0:10000 RRA:AVERAGE:0.5:1:600 RRA:AVERAGE:0.5:6:600 RRA:AVERAGE:0.5:24:600 RRA:AVERAGE:0.5:288:600 RRA:MAX:0.5:24:600 RRA:MAX:0.5:288:600
+
+# Connections (general use) (COUNTER)
+spreadrrd=connections-*
+rrdfile=/var/spreadrrd/data/rrd/connections/connections-*.rrd
+store=connections
+create=-s 300 DS:connections:COUNTER:600:0:U RRA:AVERAGE:0.5:1:600 RRA:AVERAGE:0.5:6:600 RRA:AVERAGE:0.5:24:600 RRA:AVERAGE:0.5:288:600 RRA:MAX:0.5:24:600 RRA:MAX:0.5:288:600
+
+# Connections in use (GAUGE)
+spreadrrd=connsinuse-*
+rrdfile=/var/spreadrrd/data/rrd/connsinuse/connsinuse-*.rrd
+store=connsinuse
+create=-s 300 DS:connsinuse:GAUGE:600:0:100000 RRA:AVERAGE:0.5:1:600 RRA:AVERAGE:0.5:6:600 RRA:AVERAGE:0.5:24:600 RRA:AVERAGE:0.5:288:600 RRA:MAX:0.5:24:600 RRA:MAX:0.5:288:600
+
+# Temperature (GAUGE)
+spreadrrd=temperature-*
+rrdfile=/var/spreadrrd/data/rrd/temperature/temperature-*.rrd
+store=temperature
+create=-s 300 DS:temperature:GAUGE:600:0:1000 RRA:AVERAGE:0.5:1:600 RRA:AVERAGE:0.5:6:600 RRA:AVERAGE:0.5:24:600 RRA:AVERAGE:0.5:288:600 RRA:MAX:0.5:24:600 RRA:MAX:0.5:288:600
+
+# Battery Capacity % (GAUGE)
+spreadrrd=battery-*
+rrdfile=/var/spreadrrd/data/rrd/battery/battery-*.rrd
+store=battery
+create=-s 300 DS:battery:GAUGE:600:0:200 RRA:AVERAGE:0.5:1:600 RRA:AVERAGE:0.5:6:600 RRA:AVERAGE:0.5:24:600 RRA:AVERAGE:0.5:288:600 RRA:MAX:0.5:24:600 RRA:MAX:0.5:288:600
+
+# Voltage In/Out (GAUGE)
+spreadrrd=voltageinout-*
+rrdfile=/var/spreadrrd/data/rrd/voltageinout/voltageinout-*.rrd
+store=ivolts,ovolts
+create=-s 300 DS:ivolts:GAUGE:600:0:10000 DS:ovolts:GAUGE:600:0:10000 RRA:AVERAGE:0.5:1:600 RRA:AVERAGE:0.5:6:600 RRA:AVERAGE:0.5:24:600 RRA:AVERAGE:0.5:288:600 RRA:MAX:0.5:24:600 RRA:MAX:0.5:288:600
+
+# Generic Load (GAUGE)
+spreadrrd=load-*
+rrdfile=/var/spreadrrd/data/rrd/load/load-*.rrd
+store=load
+create=-s 300 DS:load:GAUGE:600:0:U RRA:AVERAGE:0.5:1:600 RRA:AVERAGE:0.5:6:600 RRA:AVERAGE:0.5:24:600 RRA:AVERAGE:0.5:288:600 RRA:MAX:0.5:24:600 RRA:MAX:0.5:288:600
+
+# Windows Statistics
+# Win Context Switches [1min]
+spreadrrd=wincs-*
+rrdfile=/var/spreadrrd/data/rrd/wincs/wincs-*.rrd
+store=wincs
+create=-s 60 DS:wincs:GAUGE:120:0:U RRA:AVERAGE:0.5:1:1440 RRA:AVERAGE:0.5:10:1008 RRA:AVERAGE:0.5:60:720 RRA:AVERAGE:0.5:480:1095
+
+# Win System Calls [1min]
+spreadrrd=winsyscalls-*
+rrdfile=/var/spreadrrd/data/rrd/winsyscalls/winsyscalls-*.rrd
+store=winsyscalls
+create=-s 60 DS:winsyscalls:GAUGE:120:0:U RRA:AVERAGE:0.5:1:1440 RRA:AVERAGE:0.5:10:1008 RRA:AVERAGE:0.5:60:720 RRA:AVERAGE:0.5:480:1095
+
+# Win Processes [1min]
+spreadrrd=winprocs-*
+rrdfile=/var/spreadrrd/data/rrd/winprocs/winprocs-*.rrd
+store=winprocs
+create=-s 60 DS:winprocs:GAUGE:120:0:U RRA:AVERAGE:0.5:1:1440 RRA:AVERAGE:0.5:10:1008 RRA:AVERAGE:0.5:60:720 RRA:AVERAGE:0.5:480:1095
+
+# Win Threads [1min]
+spreadrrd=winthreads-*
+rrdfile=/var/spreadrrd/data/rrd/winthreads/winthreads-*.rrd
+store=winthreads
+create=-s 60 DS:winthreads:GAUGE:120:0:U RRA:AVERAGE:0.5:1:1440 RRA:AVERAGE:0.5:10:1008 RRA:AVERAGE:0.5:60:720 RRA:AVERAGE:0.5:480:1095
+
+# Win CPU Interrupts [1min]
+spreadrrd=winints-*
+rrdfile=/var/spreadrrd/data/rrd/winints/winints-*.rrd
+store=winints
+create=-s 60 DS:winints:GAUGE:120:0:U RRA:AVERAGE:0.5:1:1440 RRA:AVERAGE:0.5:10:1008 RRA:AVERAGE:0.5:60:720 RRA:AVERAGE:0.5:480:1095
+
+# CPU Win [1min]
+spreadrrd=cpuwin-*
+rrdfile=/var/spreadrrd/data/rrd/cpuwin/cpuwin-*.rrd
+store=cpu_processor,cpu_interrupt,cpu_user,cpu_priv,cpu_idle
+create=-s 60 DS:cpu_processor:GAUGE:120:U:1000 DS:cpu_interrupt:GAUGE:120:U:1000 DS:cpu_user:GAUGE:120:U:1000 DS:cpu_priv:GAUGE:120:U:1000 DS:cpu_idle:GAUGE:120:U:1000 RRA:AVERAGE:0.5:1:1440 RRA:AVERAGE:0.5:10:1008 RRA:AVERAGE:0.5:60:720 RRA:AVERAGE:0.5:480:1095
